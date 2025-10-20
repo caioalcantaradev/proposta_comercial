@@ -245,6 +245,8 @@ textarea {
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   opacity: 0.3;
+  animation: none !important;
+  transition: none !important;
 }
 
 .link-card::before {
@@ -373,6 +375,8 @@ textarea {
   opacity: 1 !important;
   display: block !important;
   visibility: visible !important;
+  animation: none !important;
+  transition: none !important;
 }
 
 /* Forçar exibição com maior especificidade */
@@ -380,6 +384,98 @@ div#linkGerado.link-card.show {
   opacity: 1 !important;
   display: block !important;
   visibility: visible !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Garantir que o link-card não tenha animações conflitantes */
+.link-card {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Lista de Links das Propostas */
+.links-propostas-lista {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.link-proposta-item {
+  background: #333;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.link-proposta-item:hover {
+  background: #3a3a3a;
+  transform: translateX(5px);
+}
+
+.link-proposta-item:last-child {
+  margin-bottom: 0;
+}
+
+.link-proposta-cliente {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.link-proposta-url {
+  color: white;
+  font-size: 0.85rem;
+  word-break: break-all;
+  margin-bottom: 0.75rem;
+  font-family: monospace;
+  background: #1a1a1a;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.link-proposta-botoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.link-proposta-btn {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.link-proposta-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.link-proposta-btn.secundario {
+  background: transparent;
+  color: white;
+  border: 1px solid #555;
+}
+
+.link-proposta-btn.secundario:hover {
+  background: #555;
+  border-color: #777;
+}
+
+.links-propostas-vazio {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 2rem;
 }
 
 /* Responsividade */
@@ -400,6 +496,15 @@ div#linkGerado.link-card.show {
   .link-card .link-info,
   .link-card .link-buttons {
     padding: 2rem;
+  }
+
+  .link-proposta-botoes {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .link-proposta-btn {
+    width: 100%;
   }
 
   .form-row {

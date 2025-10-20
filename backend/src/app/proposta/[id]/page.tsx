@@ -54,23 +54,16 @@ export default function PropostaPage() {
     });
   };
 
-  const formatarMoeda = (valor: number) => {
-    return valor.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-  };
-
   const isExpirada = (dataExpiracao: string) => {
-    return new Date(dataExpiracao) < new Date();
+    return new Date() > new Date(dataExpiracao);
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <div className="text-white text-xl font-medium">
+          <div className="text-[#1a1a1a] text-xl font-medium">
             Carregando sua proposta...
           </div>
         </div>
@@ -78,22 +71,10 @@ export default function PropostaPage() {
     );
   }
 
-  if (error) {
+  if (error || !proposta) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="bg-red-600 text-white p-8 rounded-2xl text-center max-w-md w-full shadow-2xl">
-          <div className="text-6xl mb-4">⚠️</div>
-          <h1 className="text-2xl font-bold mb-4">Proposta não encontrada</h1>
-          <p className="text-red-100">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!proposta) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
-        <div className="bg-gray-700 text-white p-8 rounded-2xl text-center max-w-md w-full shadow-2xl">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4">
+        <div className="text-center bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700">
           <div className="text-6xl mb-4">📄</div>
           <h1 className="text-2xl font-bold mb-4">Proposta não disponível</h1>
           <p className="text-gray-300">
@@ -107,239 +88,123 @@ export default function PropostaPage() {
   const expirada = isExpirada(proposta.expiraEm);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-blue-500/20 blur-3xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/50 to-gray-900"></div>
+
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <header className="relative z-10 bg-black/20 backdrop-blur-sm border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-green-400 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">🚀</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">WEBuilder</h1>
-                <p className="text-gray-600 text-sm">
-                  Desenvolvimento Web Profissional
-                </p>
-              </div>
+              <img
+                src="/images/Logo Horizontal.png"
+                alt="WEBuilder Logo"
+                className="h-12 w-auto"
+              />
             </div>
-            {expirada && (
-              <div className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                Proposta Expirada
-              </div>
-            )}
+
+            {/* CTA Button */}
+            <button className="bg-[#D2F547] text-[#1a1a1a] px-8 py-3 rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-[#bfdf2f] transition-all duration-300 shadow-lg hover:shadow-xl">
+              Garantir Oferta
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-400 to-green-500 py-20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="mb-8">
-            <h1 className="text-6xl font-bold text-white mb-6">
-              PROPOSTA COMERCIAL
-            </h1>
-            <p className="text-2xl text-white/90 mb-4">
-              Desenvolvida especialmente para
-            </p>
-            <p className="text-3xl font-bold text-white">
-              {proposta.nomeCliente}
-            </p>
-          </div>
-
-          {/* Status Cards */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-              <p className="text-white/80 text-sm mb-2">Data da Proposta</p>
-              <p className="text-white font-bold text-lg">
-                {formatarData(proposta.dataProposta)}
-              </p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-              <p className="text-white/80 text-sm mb-2">Validade</p>
-              <p
-                className={`font-bold text-lg ${
-                  expirada ? "text-red-200" : "text-white"
-                }`}
-              >
-                {formatarData(proposta.validadeProposta)}
-              </p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-              <p className="text-white/80 text-sm mb-2">Garantia</p>
-              <p className="text-white font-bold text-lg">
-                {proposta.garantia}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Main Content */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Projeto Details */}
-            <div className="bg-white rounded-2xl p-10 shadow-xl">
-              <div className="mb-8">
-                <div className="w-16 h-16 bg-green-400 rounded-xl flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold text-white">1</span>
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Detalhes do Projeto
-                </h2>
-              </div>
+      <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-20">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Greeting */}
+          <p className="text-white text-xl mb-8 font-medium">
+            Olá, {proposta.nomeCliente}! Esta é sua
+          </p>
 
-              <div className="space-y-8">
-                <div className="border-l-4 border-green-400 pl-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    Cliente
-                  </h3>
-                  <p className="text-xl text-gray-700 font-medium">
-                    {proposta.nomeCliente}
-                  </p>
-                </div>
-
-                <div className="border-l-4 border-green-400 pl-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                    Descrição do Projeto
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed text-lg">
-                    {proposta.projeto}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Investment */}
-            <div className="bg-white rounded-2xl p-10 shadow-xl">
-              <div className="mb-8">
-                <div className="w-16 h-16 bg-green-400 rounded-xl flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold text-white">2</span>
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Investimento
-                </h2>
-              </div>
-
-              <div className="space-y-8">
-                {/* Valor Total */}
-                <div className="bg-gradient-to-r from-green-400 to-green-500 rounded-xl p-8 text-center">
-                  <p className="text-white/90 text-lg mb-2">
-                    Valor Total do Projeto
-                  </p>
-                  <p className="text-4xl font-bold text-white">
-                    {formatarMoeda(proposta.valorTotal)}
-                  </p>
-                </div>
-
-                {/* Formas de Pagamento */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                    Formas de Pagamento
-                  </h3>
-
-                  <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-green-800 font-semibold text-lg">
-                          PIX
-                        </p>
-                        <p className="text-green-600 text-sm">
-                          10% de desconto
-                        </p>
-                      </div>
-                      <p className="text-2xl font-bold text-green-800">
-                        {proposta.valorPix}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-gray-800 font-semibold text-lg">
-                          Cartão de Crédito
-                        </p>
-                        <p className="text-gray-600 text-sm">
-                          Até 12x sem juros
-                        </p>
-                      </div>
-                      <p className="text-2xl font-bold text-gray-800">
-                        {proposta.valorCartao}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="bg-gradient-to-r from-green-400 to-green-500 rounded-3xl p-12 shadow-2xl">
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Pronto para começar seu projeto?
+          {/* Main Title */}
+          <div className="mb-12">
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-4 leading-none">
+              PROPOSTA
+            </h1>
+            <h2 className="text-5xl md:text-6xl font-black text-white leading-none">
+              COMERCIAL
             </h2>
-            <p className="text-xl text-white/90 mb-10 max-w-3xl mx-auto">
-              Entre em contato conosco para validar esta proposta e dar início
-              ao desenvolvimento do seu projeto.
-            </p>
+          </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <a
-                href="https://wa.me/5511999999999"
-                className="bg-white text-green-500 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-3"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className="text-2xl">📱</span>
-                <span>WhatsApp</span>
-              </a>
-              <a
-                href="mailto:contato@webuilder.com"
-                className="bg-gray-900 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-3"
-              >
-                <span className="text-2xl">📧</span>
-                <span>Email</span>
-              </a>
+          {/* Info Cards */}
+          <div className="mb-12 space-y-4">
+            <div className="text-white text-lg">
+              <span className="font-semibold">DATA DE ENVIO:</span>{" "}
+              {formatarData(proposta.dataProposta)}
+            </div>
+            <div className="text-white text-lg">
+              <span className="font-semibold">VALIDADE:</span> 7 Dias
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-4 mb-6">
-              <div className="w-12 h-12 bg-green-400 rounded-xl flex items-center justify-center">
-                <span className="text-2xl">🚀</span>
+          {/* Main CTA */}
+          <button className="bg-[#D2F547] text-[#1a1a1a] px-12 py-4 rounded-lg font-bold text-lg uppercase tracking-wider hover:bg-[#bfdf2f] transition-all duration-300 shadow-lg hover:shadow-xl mb-16">
+            Garantir Oferta
+          </button>
+
+          {/* Trust Badges */}
+          <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-12 text-white/80">
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-[#D2F547] rounded-full flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-[#1a1a1a]"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
-              <span className="text-2xl font-bold text-white">WEBuilder</span>
+              <span className="text-sm font-medium text-white">
+                Compra Segura
+              </span>
             </div>
 
-            <p className="text-gray-400 text-lg mb-4">
-              Desenvolvimento Web Profissional
-            </p>
-            <p className="text-gray-500 mb-6">
-              Transformando ideias em realidade digital
-            </p>
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-[#D2F547] rounded-full flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-[#1a1a1a]"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-white">
+                Satisfação Garantida
+              </span>
+            </div>
 
-            <div className="border-t border-gray-800 pt-6">
-              <p className="text-gray-500 text-sm">
-                Proposta válida até {formatarData(proposta.validadeProposta)}
-              </p>
-              <p className="text-gray-600 text-xs mt-2">
-                © 2024 WEBuilder. Todos os direitos reservados.
-              </p>
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 bg-[#D2F547] rounded-full flex items-center justify-center">
+                <svg
+                  className="w-4 h-4 text-[#1a1a1a]"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="text-sm font-medium text-white">
+                Privacidade Protegida
+              </span>
             </div>
           </div>
         </div>
-      </footer>
+      </main>
     </div>
   );
 }
