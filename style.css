@@ -83,6 +83,7 @@ body {
   box-shadow: var(--shadow-lg);
   animation: slideUp 0.4s ease-out;
   overflow: hidden;
+  height: 100%;
 }
 
 .form-card::before {
@@ -244,9 +245,9 @@ textarea {
   padding: 0;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  opacity: 0.3;
-  animation: none !important;
-  transition: none !important;
+  opacity: 1;
+  animation: slideUp 0.4s ease-out;
+  height: 100%;
 }
 
 .link-card::before {
@@ -375,29 +376,11 @@ textarea {
   opacity: 1 !important;
   display: block !important;
   visibility: visible !important;
-  animation: none !important;
-  transition: none !important;
-}
-
-/* Forçar exibição com maior especificidade */
-div#linkGerado.link-card.show {
-  opacity: 1 !important;
-  display: block !important;
-  visibility: visible !important;
-  animation: none !important;
-  transition: none !important;
-}
-
-/* Garantir que o link-card não tenha animações conflitantes */
-.link-card {
-  animation: none !important;
-  transition: none !important;
 }
 
 /* Lista de Links das Propostas */
 .links-propostas-lista {
-  max-height: 400px;
-  overflow-y: auto;
+  padding-bottom: 2.5rem;
 }
 
 .link-proposta-item {

@@ -83,7 +83,7 @@ form.addEventListener("submit", async function (e) {
 
   // Enviar dados para o backend
   try {
-    const response = await fetch("http://localhost:3002/api/propostas", {
+    const response = await fetch("http://localhost:3000/api/propostas", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,26 +120,30 @@ form.addEventListener("submit", async function (e) {
 // Função para carregar links recentes do backend
 async function carregarLinksRecentes() {
   try {
-    const response = await fetch('http://localhost:3002/api/propostas');
+    const response = await fetch("http://localhost:3000/api/propostas");
     const data = await response.json();
-    
+
     if (!response.ok) {
-      throw new Error(data.error || 'Erro ao carregar propostas');
+      throw new Error(data.error || "Erro ao carregar propostas");
     }
-    
+
     // Pegar os últimos 5 links
     const linksRecentes = data.propostas.slice(0, 5);
-    
+
     if (linksRecentes.length === 0) {
-      listaLinksPropostas.innerHTML = '<div class="links-propostas-vazio">Nenhuma proposta gerada ainda</div>';
+      listaLinksPropostas.innerHTML =
+        '<div class="links-propostas-vazio">Nenhuma proposta gerada ainda</div>';
       return;
     }
-    
-    listaLinksPropostas.innerHTML = linksRecentes.map((proposta) => {
-      const dataFormatada = new Date(proposta.dataCriacao).toLocaleString('pt-BR');
-      const link = `http://localhost:3002/proposta/${proposta.id}`;
-      
-      return `
+
+    listaLinksPropostas.innerHTML = linksRecentes
+      .map((proposta) => {
+        const dataFormatada = new Date(proposta.dataCriacao).toLocaleString(
+          "pt-BR"
+        );
+        const link = `http://localhost:3000/proposta/${proposta.id}`;
+
+        return `
         <div class="link-proposta-item">
           <div class="link-proposta-cliente">${proposta.nomeCliente}</div>
           <div class="link-proposta-url">${link}</div>
@@ -150,35 +154,39 @@ async function carregarLinksRecentes() {
           <div style="font-size: 0.75rem; color: #888; margin-top: 0.5rem;">${dataFormatada}</div>
         </div>
       `;
-    }).join('');
-    
+      })
+      .join("");
   } catch (error) {
-    console.error('Erro ao carregar links:', error);
-    listaLinksPropostas.innerHTML = '<div class="links-propostas-vazio">Erro ao carregar propostas</div>';
+    console.error("Erro ao carregar links:", error);
+    listaLinksPropostas.innerHTML =
+      '<div class="links-propostas-vazio">Erro ao carregar propostas</div>';
   }
 }
 
 // Função para copiar link da proposta
 function copiarLinkProposta(link) {
-  navigator.clipboard.writeText(link).then(() => {
-    // Feedback visual
-    event.target.textContent = 'Copiado!';
-    event.target.style.background = '#4CAF50';
-    setTimeout(() => {
-      event.target.textContent = 'Copiar';
-      event.target.style.background = '';
-    }, 2000);
-  }).catch(() => {
-    alert('Erro ao copiar o link. Por favor, copie manualmente.');
-  });
+  navigator.clipboard
+    .writeText(link)
+    .then(() => {
+      // Feedback visual
+      event.target.textContent = "Copiado!";
+      event.target.style.background = "#4CAF50";
+      setTimeout(() => {
+        event.target.textContent = "Copiar";
+        event.target.style.background = "";
+      }, 2000);
+    })
+    .catch(() => {
+      alert("Erro ao copiar o link. Por favor, copie manualmente.");
+    });
 }
 
 // Função para visualizar link da proposta
 function visualizarLinkProposta(link) {
-  window.open(link, '_blank');
+  window.open(link, "_blank");
 }
 
 // Carregar links ao inicializar a página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   carregarLinksRecentes();
 });

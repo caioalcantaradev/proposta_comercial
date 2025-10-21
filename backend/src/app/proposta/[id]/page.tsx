@@ -63,7 +63,7 @@ export default function PropostaPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <div className="text-[#1a1a1a] text-xl font-medium">
+          <div className="text-white text-xl font-medium">
             Carregando sua proposta...
           </div>
         </div>
@@ -76,7 +76,9 @@ export default function PropostaPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4">
         <div className="text-center bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700">
           <div className="text-6xl mb-4">📄</div>
-          <h1 className="text-2xl font-bold mb-4">Proposta não disponível</h1>
+          <h1 className="text-2xl font-bold text-white mb-4">
+            Proposta não disponível
+          </h1>
           <p className="text-gray-300">
             Esta proposta pode ter expirado ou não existe.
           </p>
